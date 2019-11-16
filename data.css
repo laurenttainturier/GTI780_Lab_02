@@ -1,0 +1,13 @@
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    width: 3rem;
+    max-width: 3rem;
+    height: 1.2rem;
+    overflow: hidden;
+    text-overflow: revert;
+    text-align: center;
+}

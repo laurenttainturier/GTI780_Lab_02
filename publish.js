@@ -1,16 +1,55 @@
-var mqtt = require('mqtt')
-var client  = mqtt.connect('mqtt://broker.hivemq.com', {
-  'wsOptions': {
-    'port': 8000
-  }
-})
+var mqtt = require('mqtt');
 
-const topic = 'gti780a2019/equipe03/temperature'
+var client = mqtt.connect('mqtt://broker.hivemq.com');
+
+const temp_topic = 'gti780a2019/equipe3/temperature';
+const pression_topic = 'gti780a2019/equipe3/pression';
+
+// const bmp180 = require('bmp180-sensor')
+
+async function sendData() {
+  // const data = await readBmp180();
+
+  const data = {
+    "temperature": 20 + Math.random() * 4,
+    "pressure": 50 + Math.random() * 4
+  }
+
+  console.log(data);
+
+  client.publish(temp_topic, data.temperature.toString());
+  client.publish(pression_topic, data.pressure.toString())
+}
+
+async function readBmp180() {
+  const sensor = await bmp180({
+    address: 0x77,
+    mode: 1,
+  })
+
+  const data = await sensor.read()
+
+  await sensor.close()
+}
+
 
 client.on('connect', function () {
-  client.subscribe(topic, function (err) {
-    if (!err) {
-      client.publish(topic, 'Hello there')
+  client.subscribe(temp_topic, function (err) {
+    if (err) {
+      console.log('Connection to temperature topic failed!');
+      // process.exit()
     }
   })
 })
+
+client.on('connect', function () {
+  client.subscribe(pression_topic, function (err) {
+    if (err) {
+      console.log('Connection to pressure topic failed!');
+      process.exit()
+    }
+  })
+})
+
+sendData();
+setInterval(sendData, 5000);
