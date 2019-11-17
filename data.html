@@ -7,41 +7,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
     <script>
 
-      client = new Paho.MQTT.Client('broker.hivemq.com', 8000, "clientId");
-      client.onConnectionLost = onConnectionLost;
-      client.onMessageArrived = onMessageArrived;
-      client.connect({onSuccess: onConnect});
-      const teamNumber = 20;
-      const timeoutObj = {
-        'temperature': {},
-        'pression': {}
-      };
+        client = new Paho.MQTT.Client('broker.hivemq.com', 8000, "clientId");
+        client.onConnectionLost = onConnectionLost;
+        client.onMessageArrived = onMessageArrived;
+        client.connect({onSuccess: onConnect});
+        const teamNumber = 20;
+        const timeoutObj = {
+            'temperature': {},
+            'pression': {}
+        };
 
-      function onConnect() {
-        for (let i = 1; i < teamNumber; i++) {
-          client.subscribe(`gti780a2019/equipe${i}/temperature`);
-          client.subscribe(`gti780a2019/equipe${i}/pression`);
+        function onConnect() {
+            for (let i = 1; i < teamNumber; i++) {
+                client.subscribe(`gti780a2019/equipe${i}/temperature`);
+                client.subscribe(`gti780a2019/equipe${i}/pression`);
+            }
         }
-      }
 
-      function onConnectionLost(responseObject) {
-        if (responseObject.errorCode !== 0)
-          console.log("onConnectionLost:" + responseObject.errorMessage);
-      }
+        function onConnectionLost(responseObject) {
+            if (responseObject.errorCode !== 0)
+                console.log("onConnectionLost:" + responseObject.errorMessage);
+        }
 
-      function onMessageArrived(message) {
-        const cellId = message.destinationName.split('gti780a2019/')[1];
-        const teamId = cellId.split('/')[0];
-        const sensor = cellId.split('/')[1];
+        function onMessageArrived(message) {
+            const cellId = message.destinationName.split('gti780a2019/')[1];
+            const teamId = cellId.split('/')[0];
+            const sensor = cellId.split('/')[1];
 
-        clearTimeout(timeoutObj[sensor][teamId]);
+            clearTimeout(timeoutObj[sensor][teamId]);
 
-        document.getElementById(cellId).innerHTML = parseFloat(message.payloadString).toFixed(2);
+            document.getElementById(cellId).innerHTML = parseFloat(message.payloadString).toFixed(2);
 
-        timeoutObj[sensor][teamId] = setTimeout(function () {
-          document.getElementById(cellId).innerHTML = "";
-        }, 10000);
-      }
+            timeoutObj[sensor][teamId] = setTimeout(function () {
+                document.getElementById(cellId).innerHTML = "";
+            }, 10000);
+        }
 
     </script>
     <link rel="stylesheet" href="data.css">
@@ -50,31 +50,31 @@
 <h1>Tous les capteurs:</h1>
 <h2>Dernière valeur de température (par équipe):</h2>
 <table>
-    <tr id="temperature_header"/>
-    <tr id="temperature_values"/>
+    <tr id="temperature_header"></tr>
+    <tr id="temperature_values"></tr>
 </table>
 <h2>Dernière valeur de pression (par équipe):</h2>
 <table>
-    <tr id="pression_header"/>
-    <tr id="pression_values"/>
+    <tr id="pression_header"></tr>
+    <tr id="pression_values"></tr>
 </table>
 <script>
 
-  function constructTable(header_id, values_id) {
-    tableHeader = document.getElementById(header_id);
-    tableValues = document.getElementById(values_id);
-    for (let i = 0; i < teamNumber; i++) {
-      let th = document.createElement('th');
-      let td = document.createElement('td');
-      th.innerHTML = i;
-      td.id = `equipe${i}/${values_id.split('_')[0]}`;
-      tableHeader.appendChild(th);
-      tableValues.appendChild(td);
+    function constructTable(header_id, values_id) {
+        let tableHeader = document.getElementById(header_id);
+        let tableValues = document.getElementById(values_id);
+        for (let i = 0; i < teamNumber; i++) {
+            let th = document.createElement('th');
+            let td = document.createElement('td');
+            th.innerHTML = i;
+            td.id = `equipe${i}/${values_id.split('_')[0]}`;
+            tableHeader.appendChild(th);
+            tableValues.appendChild(td);
+        }
     }
-  }
 
-  constructTable('temperature_header', 'temperature_values');
-  constructTable('pression_header', 'pression_values');
+    constructTable('temperature_header', 'temperature_values');
+    constructTable('pression_header', 'pression_values');
 
 </script>
 </body>

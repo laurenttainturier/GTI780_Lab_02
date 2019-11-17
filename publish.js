@@ -8,48 +8,48 @@ const pression_topic = 'gti780a2019/equipe3/pression';
 // const bmp180 = require('bmp180-sensor')
 
 async function sendData() {
-  // const data = await readBmp180();
+    // const data = await readBmp180();
 
-  const data = {
-    "temperature": 20 + Math.random() * 4,
-    "pressure": 50 + Math.random() * 4
-  }
+    const data = {
+        "temperature": 20 + Math.random() * 4,
+        "pressure": 50 + Math.random() * 4
+    };
 
-  console.log(data);
+    console.log(data);
 
-  client.publish(temp_topic, data.temperature.toString());
-  client.publish(pression_topic, data.pressure.toString())
+    client.publish(temp_topic, data.temperature.toString());
+    client.publish(pression_topic, data.pressure.toString())
 }
 
 async function readBmp180() {
-  const sensor = await bmp180({
-    address: 0x77,
-    mode: 1,
-  })
+    const sensor = await bmp180({
+        address: 0x77,
+        mode: 1,
+    });
 
-  const data = await sensor.read()
+    const data = await sensor.read();
 
-  await sensor.close()
+    await sensor.close()
 }
 
 
 client.on('connect', function () {
-  client.subscribe(temp_topic, function (err) {
-    if (err) {
-      console.log('Connection to temperature topic failed!');
-      // process.exit()
-    }
-  })
-})
+    client.subscribe(temp_topic, function (err) {
+        if (err) {
+            console.log('Connection to temperature topic failed!');
+            // process.exit()
+        }
+    })
+});
 
 client.on('connect', function () {
-  client.subscribe(pression_topic, function (err) {
-    if (err) {
-      console.log('Connection to pressure topic failed!');
-      process.exit()
-    }
-  })
-})
+    client.subscribe(pression_topic, function (err) {
+        if (err) {
+            console.log('Connection to pressure topic failed!');
+            process.exit()
+        }
+    })
+});
 
 sendData();
 setInterval(sendData, 5000);
