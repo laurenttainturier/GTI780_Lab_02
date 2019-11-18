@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Données des capteurs</title>
+    <link rel="stylesheet" href="data.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="data.js"></script>
+    <link rel="stylesheet" href="data.css">
+</head>
+<body>
+
+<h1>Mes capteurs</h1>
+<h3>Température :</h3>
+<div class="fixed-height-chart">
+    <canvas id="temperatureChart" width="400" height="400"></canvas>
+</div>
+<h3>Pression:</h3>
+<div class="fixed-height-chart">
+    <canvas id="pressionChart"></canvas>
+</div>
+<script src="charts.js"></script>
+
+<h1>Tous les capteurs:</h1>
+<h2>Dernière valeur de température (par équipe):</h2>
+<table>
+    <tr id="temperature_header"></tr>
+    <tr id="temperature_values"></tr>
+</table>
+<h2>Dernière valeur de pression (par équipe):</h2>
+<table>
+    <tr id="pression_header"></tr>
+    <tr id="pression_values"></tr>
+</table>
+<script src="table.js"></script>
+</body>
+</html>

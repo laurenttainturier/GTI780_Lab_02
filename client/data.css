@@ -11,3 +11,7 @@ th, td {
     text-overflow: revert;
     text-align: center;
 }
+
+.fixed-height-chart {
+    height: 400px
+}
