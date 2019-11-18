@@ -52,4 +52,4 @@ client.on('connect', function () {
 });
 
 sendData();
-setInterval(sendData, 5000);
+setInterval(sendData, 3000);
