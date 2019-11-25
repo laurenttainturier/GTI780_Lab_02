@@ -13,8 +13,14 @@ const timeoutObj = {
 function onConnect() {
     console.log("onConnect");
     for (let i = 1; i < teamNumber; i++) {
-        client.subscribe(`gti780a2019/equipe${i}/temperature`);
-        client.subscribe(`gti780a2019/equipe${i}/pression`);
+        if (i < 10){
+            client.subscribe(`gti780a2019/equipe0${i}/temperature`);
+            client.subscribe(`gti780a2019/equipe0${i}/pression`);
+        }
+        else {
+            client.subscribe(`gti780a2019/equipe${i}/temperature`);
+            client.subscribe(`gti780a2019/equipe${i}/pression`);
+        }
     }
 }
 
@@ -27,7 +33,7 @@ function onMessageArrived(message) {
     const cellId = message.destinationName.split('gti780a2019/')[1];
     const teamId = cellId.split('/')[0];
     const sensor = cellId.split('/')[1];
-    if (teamId === 'equipe3') {
+    if (teamId === 'equipe03') {
         if (sensor === "temperature") {
             if (temp.length === 10) {
                 temp.splice(0, 1);

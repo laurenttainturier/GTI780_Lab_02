@@ -5,7 +5,12 @@ function constructTable(header_id, values_id) {
         let th = document.createElement('th');
         let td = document.createElement('td');
         th.innerHTML = i;
-        td.id = `equipe${i}/${values_id.split('_')[0]}`;
+        if (i < 10) {
+            td.id = `equipe0${i}/${values_id.split('_')[0]}`;
+        }
+        else {
+            td.id = `equipe${i}/${values_id.split('_')[0]}`;
+        }
         tableHeader.appendChild(th);
         tableValues.appendChild(td);
     }
