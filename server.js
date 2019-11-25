@@ -5,7 +5,7 @@ var client = mqtt.connect('mqtt://broker.hivemq.com');
 const temp_topic = 'gti780a2019/equipe03/temperature';
 const pression_topic = 'gti780a2019/equipe03/pression';
 
-// const bmp180 = require('bmp180-sensor')
+const bmp180 = require('bmp180-sensor');
 
 async function sendData() {
     const data = await readBmp180();
