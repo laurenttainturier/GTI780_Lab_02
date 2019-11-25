@@ -8,12 +8,7 @@ const pression_topic = 'gti780a2019/equipe03/pression';
 // const bmp180 = require('bmp180-sensor')
 
 async function sendData() {
-    // const data = await readBmp180();
-
-    const data = {
-        "temperature": 20 + Math.random() * 4,
-        "pressure": 50 + Math.random() * 4
-    };
+    const data = await readBmp180();
 
     console.log(data);
 
@@ -29,7 +24,8 @@ async function readBmp180() {
 
     const data = await sensor.read();
 
-    await sensor.close()
+    await sensor.close();
+    return data;
 }
 
 
